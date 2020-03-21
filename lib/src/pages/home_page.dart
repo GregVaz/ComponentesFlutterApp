@@ -1,6 +1,7 @@
-import 'package:componentes/src/utils/icono_string_util.dart';
 import 'package:flutter/material.dart';
+import 'package:componentes/src/utils/icono_string_util.dart';
 import 'package:componentes/src/providers/menu_provider.dart';
+import 'package:componentes/src/pages/alert_page.dart';
 
 class HomePage extends StatelessWidget {
 
@@ -34,13 +35,14 @@ class HomePage extends StatelessWidget {
     return FutureBuilder(
         future: menuProvider.cargarData(),
         initialData: [], // Data que se cargara en espera de la informacion en consumo
-        builder: ( context, AsyncSnapshot<List<dynamic>> snapshot ){
+        builder: ( context, AsyncSnapshot<List<dynamic>> snapshot ){ 
+          // El builder contiene una referencia al BuilderContext, para hacer referencia a la pagina donde nos encontramos
           
           // print('builder');
           // print(snapshot.data);
 
           return ListView(
-            children: _listaItems( snapshot.data ),
+            children: _listaItems( snapshot.data , context),
           );  
 
         },
@@ -48,7 +50,7 @@ class HomePage extends StatelessWidget {
       
   }
       
-  List<Widget> _listaItems( List<dynamic> data ) {
+  List<Widget> _listaItems( List<dynamic> data , BuildContext context) {
 
     final List<Widget> opciones = [];
 
@@ -57,7 +59,19 @@ class HomePage extends StatelessWidget {
         title: Text( opt['texto'] ),
         leading: getIcon( opt['icon'] ),
         trailing: Icon( Icons.keyboard_arrow_down, color: Colors.blue ),
-        onTap: () {},
+        onTap: () {
+          // Navegacion de pantalla
+          final route = MaterialPageRoute(
+            builder: ( context ) => AlertPage()
+            ); //Ruta simple
+          Navigator.push(context, route);           
+          /*
+          // El context es el BuildContext, esto sabe cual es la pagina siguiente, la anterior, un arbol de pantallas.
+
+          Al aplicar esto, todas las opciones te llevan a la misma pagina. 
+          Lo cual a no ser que solo sea para una opcion, no es muy eficiente.
+          */  
+        },
       );
 
       opciones..add( widgetTemp )
