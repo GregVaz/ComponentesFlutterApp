@@ -60,17 +60,15 @@ class HomePage extends StatelessWidget {
         leading: getIcon( opt['icon'] ),
         trailing: Icon( Icons.keyboard_arrow_down, color: Colors.blue ),
         onTap: () {
-          // Navegacion de pantalla
-          final route = MaterialPageRoute(
-            builder: ( context ) => AlertPage()
-            ); //Ruta simple
-          Navigator.push(context, route);           
-          /*
-          // El context es el BuildContext, esto sabe cual es la pagina siguiente, la anterior, un arbol de pantallas.
+          // Navegacion sencilla
+          // final route = MaterialPageRoute(
+          //   builder: ( context ) => AlertPage()
+          //   ); //Ruta simple
+          // Navigator.push(context, route);   
 
-          Al aplicar esto, todas las opciones te llevan a la misma pagina. 
-          Lo cual a no ser que solo sea para una opcion, no es muy eficiente.
-          */  
+          //Navegacion de rutas con nombre
+          Navigator.pushNamed(context, opt['ruta']);
+
         },
       );
 
